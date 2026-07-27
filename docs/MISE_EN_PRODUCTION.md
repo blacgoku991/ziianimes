@@ -1,5 +1,8 @@
 # Avant de publier sur un vrai compte
 
+> **Installation bloquée sous Windows ?** Voir la section « Docker ne
+> répond pas » en fin de document.
+
 Ce document liste ce qui **n'a pas pu être vérifié** dans l'environnement de
 développement, et ce qu'il reste à faire avant qu'une annonce parte
 réellement. Il est délibérément explicite : l'écart entre « ça tourne » et
@@ -119,3 +122,46 @@ Il faut décider, en produit et non en technique : réduire l'intervalle,
 n'autoriser qu'une plateforme à la fois pour les pièces uniques, ou assumer
 et documenter le risque auprès des utilisateurs. Voir
 `docs/REVUE_SPEC.md` §1.2.
+
+
+---
+
+## Annexe — Docker ne répond pas
+
+Message typique :
+
+```
+open //./pipe/dockerDesktopLinuxEngine: Le fichier spécifié est introuvable
+```
+
+Il signifie une seule chose : **le moteur Docker n'est pas en train de
+tourner**. Ni le dépôt ni la configuration ne sont en cause — aucune
+commande `docker` ne peut aboutir tant que ce point n'est pas réglé.
+
+Diagnostic, dans l'ordre :
+
+```powershell
+# 1. Le client est-il installé ?
+Get-Command docker -ErrorAction SilentlyContinue
+
+# 2. Docker Desktop est-il présent sur le disque ?
+Test-Path "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+
+# 3. Est-il en cours d'exécution ?
+Get-Process "Docker Desktop" -ErrorAction SilentlyContinue
+
+# 4. Le sous-système Linux est-il en place ? (requis)
+wsl --status
+```
+
+Selon le résultat :
+
+| Constat | Action |
+|---|---|
+| Étape 2 renvoie `False` | Docker Desktop n'est pas installé : <https://www.docker.com/products/docker-desktop/>, puis redémarrer la machine |
+| Étape 3 ne renvoie rien | Lancer `Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"` et attendre que l'icône baleine cesse de s'animer — le premier démarrage prend souvent une à deux minutes |
+| Étape 4 échoue | `wsl --install`, puis redémarrer. Docker Desktop s'appuie sur WSL 2 pour exécuter des conteneurs Linux |
+| Tout est vert mais l'erreur persiste | Vérifier que Docker Desktop est en mode **conteneurs Linux** (clic droit sur l'icône) et non en mode conteneurs Windows |
+
+Contrôle final : `docker run --rm hello-world`. S'il affiche son message de
+bienvenue, la pile du projet démarrera.
