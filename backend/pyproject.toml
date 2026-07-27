@@ -1,0 +1,54 @@
+[project]
+name = "ziia-backend"
+version = "0.1.0"
+description = "Préparation et publication d'annonces multi-comptes pour revendeurs"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]==0.115.6",
+    "uvicorn[standard]>=0.32",
+    "sqlalchemy==2.0.36",
+    "alembic==1.14.0",
+    "psycopg[binary]==3.2.3",
+    "pydantic-settings==2.7.0",
+    "python-jose[cryptography]==3.3.0",
+    "passlib[argon2]==1.7.4",
+    "argon2-cffi>=23.1",
+    "python-multipart>=0.0.18",
+    "email-validator>=2.2",
+    "pillow==11.0.0",
+    "numpy<2.2",
+    "opencv-python-headless==4.10.0.84",
+    "celery[redis]==5.4.0",
+    "redis>=5.2",
+    "boto3>=1.35",
+    "structlog>=24.4",
+]
+
+[project.optional-dependencies]
+# Détourage : dépendance lourde (ONNX + modèle U²-Net téléchargé au premier
+# appel). Le pipeline fonctionne sans, en conservant le fond d'origine.
+segmentation = ["rembg[cpu]>=2.0.59", "onnxruntime>=1.19"]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.28",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "ARG"]
+ignore = ["B008"]  # Depends() en valeur par défaut est l'idiome FastAPI
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG001", "ARG002"]
+"alembic/versions/*" = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = false
+ignore_missing_imports = true
