@@ -8,7 +8,8 @@ Next.js  ──HTTP──▶  FastAPI  ──▶  PostgreSQL
                        ├──▶  S3 / R2 / disque   (photos sources, variantes)
                        │
                        └──▶  Redis ──▶  worker imagerie   (Celery, conteneur séparé)
-                                   └──▶  worker publication (Playwright, étape 4)
+                                   └──▶  worker publication (Playwright, conteneur dédié)
+                                   └──▶  ordonnanceur (synchro ventes, relances, santé)
 ```
 
 Les workers ne partagent avec l'API que la base et le stockage objet. Un
@@ -130,3 +131,88 @@ Choix notables :
 `structlog` en JSON, avec un processeur de censure qui remplace les clés
 sensibles (mots de passe, cookies, jetons, sessions) avant sérialisation.
 Chaque ligne porte un `request_id` propagé en en-tête de réponse.
+
+---
+
+## Étapes 2 à 6 — décisions structurantes
+
+### Couche IA remplaçable
+
+`app/ai/` expose un contrat (`AiProvider`) et deux implémentations : Claude,
+et un bouchon déterministe hors ligne. Sans clé d'API, le produit reste
+entièrement utilisable et le dit dans les journaux, plutôt que d'échouer sur
+une erreur d'authentification incompréhensible côté utilisateur. Toute la
+suite de tests tourne sans réseau.
+
+Deux règles de coût, dictées par le volume visé (50 à 200 articles par mois
+et par revendeur) : **une requête par article**, pas une par photo ; **une
+requête pour toutes les variantes de texte**, ce qui évite de repayer
+l'analyse et permet au modèle de rendre les variantes réellement
+différentes puisqu'il les voit toutes.
+
+### Rapprochement de catégories : apprendre plutôt que deviner
+
+Ordre de résolution, du plus fiable au moins fiable : choix mémorisé pour
+cet espace de travail → correspondance globale → rapprochement lexical
+scoré → **demander à l'utilisateur**. Le dernier cas n'est pas un échec :
+une annonce mal rangée est invisible, ce qui est pire qu'une question.
+
+Pas d'embeddings, volontairement. Le rapprochement lexical gère la
+singularisation (les référentiels sont au pluriel, l'IA parle au singulier),
+les synonymes du domaine, et surtout le **genre** — « baskets homme » et
+« baskets enfant » ne mènent pas au même rayon, et se tromper de rayon rend
+l'annonce introuvable. Sur les cas courants, 11 sur 14 sont résolus
+automatiquement ; les 3 restants sont de vraies ambiguïtés, et le choix de
+l'utilisateur est mémorisé pour ne plus jamais être demandé.
+
+### Argent : tout passe par le net
+
+`app/services/fees.py` modélise commissions, frais d'encaissement et port à
+la charge du vendeur. Le tableau de bord, le prix conseillé, le prix
+plancher et les baisses programmées consomment tous `compute_margin`. Un
+prix moins un coût d'achat n'est pas une marge, et une marge fausse oriente
+les décisions d'achat dans le mauvais sens.
+
+### Publication : les garde-fous d'abord
+
+| Garde-fou | Mise en œuvre |
+|---|---|
+| Une publication à la fois par compte | `UPDATE ... WHERE last_action_at <= seuil` — un seul `UPDATE`, donc atomique. Un `SELECT` puis `UPDATE` laisserait deux workers passer |
+| Délais entre actions | Aléatoire entre 45 et 180 s, plus une pause entre chaque champ du formulaire |
+| Plafond quotidien | 40 actions par compte, réinitialisé à minuit |
+| Doublon inter-comptes | Refusé, pas seulement signalé — c'est un des signaux les plus nets de rapprochement de comptes |
+| Brouillon par défaut | La publication automatique exige l'acceptation explicite de l'avertissement CGU, sinon elle est rétrogradée |
+| CAPTCHA | Détecté, le job s'arrête et rend la main. Aucune tentative de contournement |
+
+### Reprise idempotente
+
+Chaque étape franchie est écrite dans `publications.checkpoint`. Un échec
+transporte la progression accomplie (`ConnectorError.checkpoint`) : la
+reprise saute l'envoi des photos, l'étape longue et celle qui, rejouée,
+créerait des doublons côté plateforme.
+
+### Vente : ce qui est annulé
+
+À la vente, **toutes** les autres publications de l'article sont retirées —
+y compris celles simplement en attente en file. Une publication en attente
+est aussi dangereuse qu'une publication en ligne : sans annulation, elle
+part *après* la vente. Le runner refuse par ailleurs d'exécuter une
+publication passée à `unpublished` entre-temps.
+
+La **survente** — deux acheteurs pour une pièce unique entre deux
+synchronisations — est détectée et signalée (`oversold: true`, journal en
+erreur) plutôt que masquée. Elle ne peut pas être évitée techniquement ;
+c'est un arbitrage produit, documenté dans `docs/REVUE_SPEC.md` §1.2.
+
+### Connecteurs : ne pas propager la fragilité de Vinted
+
+Vinted est fragile parce qu'il n'a pas d'API, pas parce que c'est une
+fatalité. eBay, Depop et Leboncoin héritent d'`ApiConnector` : pas de
+sélecteur, pas de DOM, une gestion d'erreurs typée (réessayable, définitif,
+reconnexion nécessaire) et la limitation de débit traitée comme un cas
+normal.
+
+Le contrôle de santé quotidien ouvre réellement le formulaire Vinted et
+vérifie chaque cible obligatoire. C'est ce qui permet d'être prévenu le jour
+où la plateforme change son DOM, au lieu de le découvrir trois semaines plus
+tard en constatant que rien ne part.

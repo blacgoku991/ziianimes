@@ -27,8 +27,11 @@ class SubscriptionStatus(enum.StrEnum):
 class ArticleStatus(enum.StrEnum):
     draft = "draft"
     listed = "listed"
+    #: Vendu sur une plateforme, dépublication des autres en cours.
     reserved = "reserved"
     sold = "sold"
+    #: Retour acheteur : la pièce revient en stock.
+    returned = "returned"
     withdrawn = "withdrawn"
 
 
@@ -81,6 +84,8 @@ class PublicationMode(enum.StrEnum):
 
 class PublicationStatus(enum.StrEnum):
     pending = "pending"
+    #: Bloquée : un garde-fou métier s'y oppose (cadence, doublon de compte).
+    blocked = "blocked"
     queued = "queued"
     running = "running"
     draft_ready = "draft_ready"

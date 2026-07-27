@@ -127,8 +127,21 @@ class Publication(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     attempts: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=0)
     last_error: Mapped[str | None] = mapped_column(sa.Text)
 
+    #: Prix réellement encaissé, renseigné à la vente. Sert de base aux
+    #: comparables : c'est la seule donnée de vente réelle dont on dispose.
+    sale_price_cents: Mapped[int | None] = mapped_column(sa.Integer)
+    #: Frais prélevés par la plateforme, et port à la charge du vendeur.
+    fee_cents: Mapped[int | None] = mapped_column(sa.Integer)
+    shipping_cents: Mapped[int | None] = mapped_column(sa.Integer)
+    net_proceeds_cents: Mapped[int | None] = mapped_column(sa.Integer)
+    #: Index du jeu de textes utilisé : deux comptes ne partagent jamais le
+    #: même titre ni la même description.
+    copy_variant_index: Mapped[int | None] = mapped_column(sa.Integer)
+
     published_at: Mapped[datetime | None] = mapped_column(TimestampType)
     sold_at: Mapped[datetime | None] = mapped_column(TimestampType)
+    #: Prochaine synchronisation d'état prévue pour cette annonce.
+    next_sync_at: Mapped[datetime | None] = mapped_column(TimestampType, index=True)
     unpublished_at: Mapped[datetime | None] = mapped_column(TimestampType)
     last_synced_at: Mapped[datetime | None] = mapped_column(TimestampType)
     last_relisted_at: Mapped[datetime | None] = mapped_column(TimestampType)

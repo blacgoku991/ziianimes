@@ -15,10 +15,22 @@ from app.models.mixins import TimestampMixin, UUIDPrimaryKeyMixin
 
 
 def enum_col(enum_cls: type, **kwargs: object) -> sa.Enum:
+    """Colonne d'énumération : `VARCHAR` + contrainte `CHECK`.
+
+    `create_constraint=True` est explicite : SQLAlchemy 2.0 ne crée aucune
+    contrainte par défaut, et la validation resterait alors purement
+    applicative. Or les workers écrivent dans les mêmes tables que l'API —
+    la base doit refuser une valeur inconnue quelle qu'en soit la source.
+
+    Le nom de la contrainte est dérivé de la colonne plutôt que du nom de
+    la classe Python : une énumération renommée en Python ne doit pas
+    déclencher une migration de contrainte.
+    """
     return sa.Enum(
         enum_cls,
         native_enum=False,
         length=32,
+        create_constraint=True,
         validate_strings=True,
         values_callable=lambda e: [item.value for item in e],
         **kwargs,  # type: ignore[arg-type]

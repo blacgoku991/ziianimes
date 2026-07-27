@@ -1,0 +1,1619 @@
+{
+ "platform": "vinted",
+ "version": "2026-07-seed",
+ "_avertissement": "Jeu de DÉPART, saisi à la main pour que le rapprochement de catégories soit exploitable dès l'installation. Il approche l'arborescence réelle sans en être une copie : les identifiants externes sont locaux et DOIVENT être remplacés par ceux de la plateforme avant toute publication. Voir app/referential/importer.py.",
+ "categories": [
+  {
+   "external_id": "v1",
+   "parent_external_id": null,
+   "name": "Femmes",
+   "path": "Femmes",
+   "level": 0,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v2",
+   "parent_external_id": "v1",
+   "name": "Vêtements",
+   "path": "Femmes > Vêtements",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v3",
+   "parent_external_id": "v2",
+   "name": "Robes",
+   "path": "Femmes > Vêtements > Robes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v4",
+   "parent_external_id": "v2",
+   "name": "Jupes",
+   "path": "Femmes > Vêtements > Jupes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v5",
+   "parent_external_id": "v2",
+   "name": "Pantalons",
+   "path": "Femmes > Vêtements > Pantalons",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v6",
+   "parent_external_id": "v2",
+   "name": "Jeans",
+   "path": "Femmes > Vêtements > Jeans",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v7",
+   "parent_external_id": "v2",
+   "name": "Shorts",
+   "path": "Femmes > Vêtements > Shorts",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v8",
+   "parent_external_id": "v2",
+   "name": "Chemises et blouses",
+   "path": "Femmes > Vêtements > Chemises et blouses",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v9",
+   "parent_external_id": "v2",
+   "name": "T-shirts",
+   "path": "Femmes > Vêtements > T-shirts",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v10",
+   "parent_external_id": "v2",
+   "name": "Débardeurs",
+   "path": "Femmes > Vêtements > Débardeurs",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v11",
+   "parent_external_id": "v2",
+   "name": "Pulls",
+   "path": "Femmes > Vêtements > Pulls",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v12",
+   "parent_external_id": "v2",
+   "name": "Gilets et cardigans",
+   "path": "Femmes > Vêtements > Gilets et cardigans",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v13",
+   "parent_external_id": "v2",
+   "name": "Sweats et sweats à capuche",
+   "path": "Femmes > Vêtements > Sweats et sweats à capuche",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v14",
+   "parent_external_id": "v2",
+   "name": "Vestes",
+   "path": "Femmes > Vêtements > Vestes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v15",
+   "parent_external_id": "v2",
+   "name": "Manteaux",
+   "path": "Femmes > Vêtements > Manteaux",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v16",
+   "parent_external_id": "v2",
+   "name": "Blazers",
+   "path": "Femmes > Vêtements > Blazers",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v17",
+   "parent_external_id": "v2",
+   "name": "Combinaisons",
+   "path": "Femmes > Vêtements > Combinaisons",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v18",
+   "parent_external_id": "v2",
+   "name": "Ensembles",
+   "path": "Femmes > Vêtements > Ensembles",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v19",
+   "parent_external_id": "v2",
+   "name": "Vêtements de sport",
+   "path": "Femmes > Vêtements > Vêtements de sport",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v20",
+   "parent_external_id": "v2",
+   "name": "Maillots de bain",
+   "path": "Femmes > Vêtements > Maillots de bain",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme"
+  },
+  {
+   "external_id": "v21",
+   "parent_external_id": "v2",
+   "name": "Grandes tailles",
+   "path": "Femmes > Vêtements > Grandes tailles",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_femme_gt"
+  },
+  {
+   "external_id": "v22",
+   "parent_external_id": "v1",
+   "name": "Chaussures",
+   "path": "Femmes > Chaussures",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v23",
+   "parent_external_id": "v22",
+   "name": "Baskets",
+   "path": "Femmes > Chaussures > Baskets",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_femme"
+  },
+  {
+   "external_id": "v24",
+   "parent_external_id": "v22",
+   "name": "Bottes",
+   "path": "Femmes > Chaussures > Bottes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_femme"
+  },
+  {
+   "external_id": "v25",
+   "parent_external_id": "v22",
+   "name": "Escarpins",
+   "path": "Femmes > Chaussures > Escarpins",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_femme"
+  },
+  {
+   "external_id": "v26",
+   "parent_external_id": "v22",
+   "name": "Sandales",
+   "path": "Femmes > Chaussures > Sandales",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_femme"
+  },
+  {
+   "external_id": "v27",
+   "parent_external_id": "v22",
+   "name": "Mocassins",
+   "path": "Femmes > Chaussures > Mocassins",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_femme"
+  },
+  {
+   "external_id": "v28",
+   "parent_external_id": "v1",
+   "name": "Sacs",
+   "path": "Femmes > Sacs",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v29",
+   "parent_external_id": "v28",
+   "name": "Sacs à main",
+   "path": "Femmes > Sacs > Sacs à main",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v30",
+   "parent_external_id": "v28",
+   "name": "Sacs à dos",
+   "path": "Femmes > Sacs > Sacs à dos",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v31",
+   "parent_external_id": "v28",
+   "name": "Pochettes",
+   "path": "Femmes > Sacs > Pochettes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v32",
+   "parent_external_id": "v1",
+   "name": "Accessoires",
+   "path": "Femmes > Accessoires",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v33",
+   "parent_external_id": "v32",
+   "name": "Ceintures",
+   "path": "Femmes > Accessoires > Ceintures",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v34",
+   "parent_external_id": "v32",
+   "name": "Écharpes",
+   "path": "Femmes > Accessoires > Écharpes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v35",
+   "parent_external_id": "v32",
+   "name": "Bijoux",
+   "path": "Femmes > Accessoires > Bijoux",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v36",
+   "parent_external_id": "v32",
+   "name": "Casquettes et bonnets",
+   "path": "Femmes > Accessoires > Casquettes et bonnets",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v37",
+   "parent_external_id": null,
+   "name": "Hommes",
+   "path": "Hommes",
+   "level": 0,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v38",
+   "parent_external_id": "v37",
+   "name": "Vêtements",
+   "path": "Hommes > Vêtements",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v39",
+   "parent_external_id": "v38",
+   "name": "T-shirts",
+   "path": "Hommes > Vêtements > T-shirts",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v40",
+   "parent_external_id": "v38",
+   "name": "Chemises",
+   "path": "Hommes > Vêtements > Chemises",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v41",
+   "parent_external_id": "v38",
+   "name": "Polos",
+   "path": "Hommes > Vêtements > Polos",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v42",
+   "parent_external_id": "v38",
+   "name": "Pulls",
+   "path": "Hommes > Vêtements > Pulls",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v43",
+   "parent_external_id": "v38",
+   "name": "Sweats et pull-overs",
+   "path": "Hommes > Vêtements > Sweats et pull-overs",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v44",
+   "parent_external_id": "v38",
+   "name": "Sweatshirts",
+   "path": "Hommes > Vêtements > Sweatshirts",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v45",
+   "parent_external_id": "v38",
+   "name": "Sweats à capuche",
+   "path": "Hommes > Vêtements > Sweats à capuche",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v46",
+   "parent_external_id": "v38",
+   "name": "Jeans",
+   "path": "Hommes > Vêtements > Jeans",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme_pantalon"
+  },
+  {
+   "external_id": "v47",
+   "parent_external_id": "v38",
+   "name": "Pantalons",
+   "path": "Hommes > Vêtements > Pantalons",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme_pantalon"
+  },
+  {
+   "external_id": "v48",
+   "parent_external_id": "v38",
+   "name": "Chinos",
+   "path": "Hommes > Vêtements > Chinos",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme_pantalon"
+  },
+  {
+   "external_id": "v49",
+   "parent_external_id": "v38",
+   "name": "Shorts",
+   "path": "Hommes > Vêtements > Shorts",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v50",
+   "parent_external_id": "v38",
+   "name": "Vestes",
+   "path": "Hommes > Vêtements > Vestes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v51",
+   "parent_external_id": "v38",
+   "name": "Manteaux",
+   "path": "Hommes > Vêtements > Manteaux",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v52",
+   "parent_external_id": "v38",
+   "name": "Blousons",
+   "path": "Hommes > Vêtements > Blousons",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v53",
+   "parent_external_id": "v38",
+   "name": "Costumes et blazers",
+   "path": "Hommes > Vêtements > Costumes et blazers",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v54",
+   "parent_external_id": "v38",
+   "name": "Vêtements de sport",
+   "path": "Hommes > Vêtements > Vêtements de sport",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v55",
+   "parent_external_id": "v38",
+   "name": "Survêtements",
+   "path": "Hommes > Vêtements > Survêtements",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme"
+  },
+  {
+   "external_id": "v56",
+   "parent_external_id": "v38",
+   "name": "Grandes tailles",
+   "path": "Hommes > Vêtements > Grandes tailles",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "fr_homme_gt"
+  },
+  {
+   "external_id": "v57",
+   "parent_external_id": "v37",
+   "name": "Chaussures",
+   "path": "Hommes > Chaussures",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v58",
+   "parent_external_id": "v57",
+   "name": "Baskets",
+   "path": "Hommes > Chaussures > Baskets",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_homme"
+  },
+  {
+   "external_id": "v59",
+   "parent_external_id": "v57",
+   "name": "Bottes",
+   "path": "Hommes > Chaussures > Bottes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_homme"
+  },
+  {
+   "external_id": "v60",
+   "parent_external_id": "v57",
+   "name": "Chaussures de ville",
+   "path": "Hommes > Chaussures > Chaussures de ville",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_homme"
+  },
+  {
+   "external_id": "v61",
+   "parent_external_id": "v57",
+   "name": "Sandales",
+   "path": "Hommes > Chaussures > Sandales",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_homme"
+  },
+  {
+   "external_id": "v62",
+   "parent_external_id": "v37",
+   "name": "Accessoires",
+   "path": "Hommes > Accessoires",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v63",
+   "parent_external_id": "v62",
+   "name": "Casquettes",
+   "path": "Hommes > Accessoires > Casquettes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v64",
+   "parent_external_id": "v62",
+   "name": "Ceintures",
+   "path": "Hommes > Accessoires > Ceintures",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v65",
+   "parent_external_id": "v62",
+   "name": "Sacs",
+   "path": "Hommes > Accessoires > Sacs",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v66",
+   "parent_external_id": "v62",
+   "name": "Montres",
+   "path": "Hommes > Accessoires > Montres",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "unique"
+  },
+  {
+   "external_id": "v67",
+   "parent_external_id": null,
+   "name": "Enfants",
+   "path": "Enfants",
+   "level": 0,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v68",
+   "parent_external_id": "v67",
+   "name": "Vêtements",
+   "path": "Enfants > Vêtements",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v69",
+   "parent_external_id": "v68",
+   "name": "Hauts",
+   "path": "Enfants > Vêtements > Hauts",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "enfant"
+  },
+  {
+   "external_id": "v70",
+   "parent_external_id": "v68",
+   "name": "Pantalons",
+   "path": "Enfants > Vêtements > Pantalons",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "enfant"
+  },
+  {
+   "external_id": "v71",
+   "parent_external_id": "v68",
+   "name": "Robes",
+   "path": "Enfants > Vêtements > Robes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "enfant"
+  },
+  {
+   "external_id": "v72",
+   "parent_external_id": "v68",
+   "name": "Manteaux et vestes",
+   "path": "Enfants > Vêtements > Manteaux et vestes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "enfant"
+  },
+  {
+   "external_id": "v73",
+   "parent_external_id": "v68",
+   "name": "Ensembles",
+   "path": "Enfants > Vêtements > Ensembles",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "enfant"
+  },
+  {
+   "external_id": "v74",
+   "parent_external_id": "v67",
+   "name": "Chaussures",
+   "path": "Enfants > Chaussures",
+   "level": 1,
+   "is_leaf": false,
+   "size_group_external_id": null
+  },
+  {
+   "external_id": "v75",
+   "parent_external_id": "v74",
+   "name": "Baskets",
+   "path": "Enfants > Chaussures > Baskets",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_enfant"
+  },
+  {
+   "external_id": "v76",
+   "parent_external_id": "v74",
+   "name": "Bottes",
+   "path": "Enfants > Chaussures > Bottes",
+   "level": 2,
+   "is_leaf": true,
+   "size_group_external_id": "pointure_enfant"
+  }
+ ],
+ "brands": [
+  {
+   "external_id": "b1",
+   "name": "Nike",
+   "normalized_name": "nike"
+  },
+  {
+   "external_id": "b2",
+   "name": "Adidas",
+   "normalized_name": "adidas"
+  },
+  {
+   "external_id": "b3",
+   "name": "Zara",
+   "normalized_name": "zara"
+  },
+  {
+   "external_id": "b4",
+   "name": "H&M",
+   "normalized_name": "h m"
+  },
+  {
+   "external_id": "b5",
+   "name": "Levi's",
+   "normalized_name": "levi s"
+  },
+  {
+   "external_id": "b6",
+   "name": "Carhartt",
+   "normalized_name": "carhartt"
+  },
+  {
+   "external_id": "b7",
+   "name": "The North Face",
+   "normalized_name": "the north face"
+  },
+  {
+   "external_id": "b8",
+   "name": "Ralph Lauren",
+   "normalized_name": "ralph lauren"
+  },
+  {
+   "external_id": "b9",
+   "name": "Tommy Hilfiger",
+   "normalized_name": "tommy hilfiger"
+  },
+  {
+   "external_id": "b10",
+   "name": "Lacoste",
+   "normalized_name": "lacoste"
+  },
+  {
+   "external_id": "b11",
+   "name": "Uniqlo",
+   "normalized_name": "uniqlo"
+  },
+  {
+   "external_id": "b12",
+   "name": "Mango",
+   "normalized_name": "mango"
+  },
+  {
+   "external_id": "b13",
+   "name": "Bershka",
+   "normalized_name": "bershka"
+  },
+  {
+   "external_id": "b14",
+   "name": "Pull & Bear",
+   "normalized_name": "pull bear"
+  },
+  {
+   "external_id": "b15",
+   "name": "Stradivarius",
+   "normalized_name": "stradivarius"
+  },
+  {
+   "external_id": "b16",
+   "name": "Sézane",
+   "normalized_name": "sezane"
+  },
+  {
+   "external_id": "b17",
+   "name": "Maje",
+   "normalized_name": "maje"
+  },
+  {
+   "external_id": "b18",
+   "name": "Sandro",
+   "normalized_name": "sandro"
+  },
+  {
+   "external_id": "b19",
+   "name": "Comptoir des Cotonniers",
+   "normalized_name": "comptoir des cotonniers"
+  },
+  {
+   "external_id": "b20",
+   "name": "Claudie Pierlot",
+   "normalized_name": "claudie pierlot"
+  },
+  {
+   "external_id": "b21",
+   "name": "Kiabi",
+   "normalized_name": "kiabi"
+  },
+  {
+   "external_id": "b22",
+   "name": "Celio",
+   "normalized_name": "celio"
+  },
+  {
+   "external_id": "b23",
+   "name": "Jules",
+   "normalized_name": "jules"
+  },
+  {
+   "external_id": "b24",
+   "name": "Kaporal",
+   "normalized_name": "kaporal"
+  },
+  {
+   "external_id": "b25",
+   "name": "Teddy Smith",
+   "normalized_name": "teddy smith"
+  },
+  {
+   "external_id": "b26",
+   "name": "Schott",
+   "normalized_name": "schott"
+  },
+  {
+   "external_id": "b27",
+   "name": "Champion",
+   "normalized_name": "champion"
+  },
+  {
+   "external_id": "b28",
+   "name": "Puma",
+   "normalized_name": "puma"
+  },
+  {
+   "external_id": "b29",
+   "name": "New Balance",
+   "normalized_name": "new balance"
+  },
+  {
+   "external_id": "b30",
+   "name": "Reebok",
+   "normalized_name": "reebok"
+  },
+  {
+   "external_id": "b31",
+   "name": "Vans",
+   "normalized_name": "vans"
+  },
+  {
+   "external_id": "b32",
+   "name": "Converse",
+   "normalized_name": "converse"
+  },
+  {
+   "external_id": "b33",
+   "name": "Dickies",
+   "normalized_name": "dickies"
+  },
+  {
+   "external_id": "b34",
+   "name": "Patagonia",
+   "normalized_name": "patagonia"
+  },
+  {
+   "external_id": "b35",
+   "name": "Columbia",
+   "normalized_name": "columbia"
+  },
+  {
+   "external_id": "b36",
+   "name": "Salomon",
+   "normalized_name": "salomon"
+  },
+  {
+   "external_id": "b37",
+   "name": "Quiksilver",
+   "normalized_name": "quiksilver"
+  },
+  {
+   "external_id": "b38",
+   "name": "Billabong",
+   "normalized_name": "billabong"
+  },
+  {
+   "external_id": "b39",
+   "name": "Element",
+   "normalized_name": "element"
+  },
+  {
+   "external_id": "b40",
+   "name": "Obey",
+   "normalized_name": "obey"
+  },
+  {
+   "external_id": "b41",
+   "name": "Stüssy",
+   "normalized_name": "stussy"
+  },
+  {
+   "external_id": "b42",
+   "name": "Supreme",
+   "normalized_name": "supreme"
+  },
+  {
+   "external_id": "b43",
+   "name": "Napapijri",
+   "normalized_name": "napapijri"
+  },
+  {
+   "external_id": "b44",
+   "name": "Helly Hansen",
+   "normalized_name": "helly hansen"
+  },
+  {
+   "external_id": "b45",
+   "name": "Jack & Jones",
+   "normalized_name": "jack jones"
+  },
+  {
+   "external_id": "b46",
+   "name": "Only",
+   "normalized_name": "only"
+  },
+  {
+   "external_id": "b47",
+   "name": "Vero Moda",
+   "normalized_name": "vero moda"
+  },
+  {
+   "external_id": "b48",
+   "name": "Pimkie",
+   "normalized_name": "pimkie"
+  },
+  {
+   "external_id": "b49",
+   "name": "Naf Naf",
+   "normalized_name": "naf naf"
+  },
+  {
+   "external_id": "b50",
+   "name": "Etam",
+   "normalized_name": "etam"
+  },
+  {
+   "external_id": "b51",
+   "name": "Camaïeu",
+   "normalized_name": "camaieu"
+  },
+  {
+   "external_id": "b52",
+   "name": "Promod",
+   "normalized_name": "promod"
+  },
+  {
+   "external_id": "b53",
+   "name": "Caroll",
+   "normalized_name": "caroll"
+  },
+  {
+   "external_id": "b54",
+   "name": "Gerard Darel",
+   "normalized_name": "gerard darel"
+  },
+  {
+   "external_id": "b55",
+   "name": "Ba&sh",
+   "normalized_name": "ba sh"
+  },
+  {
+   "external_id": "b56",
+   "name": "American Vintage",
+   "normalized_name": "american vintage"
+  },
+  {
+   "external_id": "b57",
+   "name": "Petit Bateau",
+   "normalized_name": "petit bateau"
+  },
+  {
+   "external_id": "b58",
+   "name": "Le Coq Sportif",
+   "normalized_name": "le coq sportif"
+  },
+  {
+   "external_id": "b59",
+   "name": "Lee",
+   "normalized_name": "lee"
+  },
+  {
+   "external_id": "b60",
+   "name": "Wrangler",
+   "normalized_name": "wrangler"
+  },
+  {
+   "external_id": "b61",
+   "name": "Diesel",
+   "normalized_name": "diesel"
+  },
+  {
+   "external_id": "b62",
+   "name": "G-Star",
+   "normalized_name": "g star"
+  },
+  {
+   "external_id": "b63",
+   "name": "Pepe Jeans",
+   "normalized_name": "pepe jeans"
+  },
+  {
+   "external_id": "b64",
+   "name": "Calvin Klein",
+   "normalized_name": "calvin klein"
+  },
+  {
+   "external_id": "b65",
+   "name": "Guess",
+   "normalized_name": "guess"
+  },
+  {
+   "external_id": "b66",
+   "name": "Desigual",
+   "normalized_name": "desigual"
+  },
+  {
+   "external_id": "b67",
+   "name": "Esprit",
+   "normalized_name": "esprit"
+  },
+  {
+   "external_id": "b68",
+   "name": "Benetton",
+   "normalized_name": "benetton"
+  },
+  {
+   "external_id": "b69",
+   "name": "Gap",
+   "normalized_name": "gap"
+  },
+  {
+   "external_id": "b70",
+   "name": "Abercrombie & Fitch",
+   "normalized_name": "abercrombie fitch"
+  },
+  {
+   "external_id": "b71",
+   "name": "Hollister",
+   "normalized_name": "hollister"
+  },
+  {
+   "external_id": "b72",
+   "name": "Superdry",
+   "normalized_name": "superdry"
+  },
+  {
+   "external_id": "b73",
+   "name": "Fila",
+   "normalized_name": "fila"
+  },
+  {
+   "external_id": "b74",
+   "name": "Kappa",
+   "normalized_name": "kappa"
+  },
+  {
+   "external_id": "b75",
+   "name": "Umbro",
+   "normalized_name": "umbro"
+  },
+  {
+   "external_id": "b76",
+   "name": "Ellesse",
+   "normalized_name": "ellesse"
+  },
+  {
+   "external_id": "b77",
+   "name": "Sergio Tacchini",
+   "normalized_name": "sergio tacchini"
+  },
+  {
+   "external_id": "b78",
+   "name": "Lonsdale",
+   "normalized_name": "lonsdale"
+  },
+  {
+   "external_id": "b79",
+   "name": "Everlast",
+   "normalized_name": "everlast"
+  },
+  {
+   "external_id": "b80",
+   "name": "Decathlon",
+   "normalized_name": "decathlon"
+  },
+  {
+   "external_id": "b81",
+   "name": "Quechua",
+   "normalized_name": "quechua"
+  },
+  {
+   "external_id": "b82",
+   "name": "Domyos",
+   "normalized_name": "domyos"
+  },
+  {
+   "external_id": "b83",
+   "name": "Kalenji",
+   "normalized_name": "kalenji"
+  },
+  {
+   "external_id": "b84",
+   "name": "Autre marque",
+   "normalized_name": "autre marque"
+  }
+ ],
+ "sizes": [
+  {
+   "external_id": "s1",
+   "size_group_external_id": "fr_femme",
+   "name": "XXS / 32",
+   "normalized_name": "xxs 32"
+  },
+  {
+   "external_id": "s2",
+   "size_group_external_id": "fr_femme",
+   "name": "XS / 34",
+   "normalized_name": "xs 34"
+  },
+  {
+   "external_id": "s3",
+   "size_group_external_id": "fr_femme",
+   "name": "S / 36",
+   "normalized_name": "s 36"
+  },
+  {
+   "external_id": "s4",
+   "size_group_external_id": "fr_femme",
+   "name": "M / 38",
+   "normalized_name": "m 38"
+  },
+  {
+   "external_id": "s5",
+   "size_group_external_id": "fr_femme",
+   "name": "L / 40",
+   "normalized_name": "l 40"
+  },
+  {
+   "external_id": "s6",
+   "size_group_external_id": "fr_femme",
+   "name": "XL / 42",
+   "normalized_name": "xl 42"
+  },
+  {
+   "external_id": "s7",
+   "size_group_external_id": "fr_femme",
+   "name": "XXL / 44",
+   "normalized_name": "xxl 44"
+  },
+  {
+   "external_id": "s8",
+   "size_group_external_id": "fr_femme_gt",
+   "name": "46",
+   "normalized_name": "46"
+  },
+  {
+   "external_id": "s9",
+   "size_group_external_id": "fr_femme_gt",
+   "name": "48",
+   "normalized_name": "48"
+  },
+  {
+   "external_id": "s10",
+   "size_group_external_id": "fr_femme_gt",
+   "name": "50",
+   "normalized_name": "50"
+  },
+  {
+   "external_id": "s11",
+   "size_group_external_id": "fr_femme_gt",
+   "name": "52",
+   "normalized_name": "52"
+  },
+  {
+   "external_id": "s12",
+   "size_group_external_id": "fr_femme_gt",
+   "name": "54",
+   "normalized_name": "54"
+  },
+  {
+   "external_id": "s13",
+   "size_group_external_id": "fr_femme_gt",
+   "name": "56",
+   "normalized_name": "56"
+  },
+  {
+   "external_id": "s14",
+   "size_group_external_id": "fr_homme",
+   "name": "XS",
+   "normalized_name": "xs"
+  },
+  {
+   "external_id": "s15",
+   "size_group_external_id": "fr_homme",
+   "name": "S",
+   "normalized_name": "s"
+  },
+  {
+   "external_id": "s16",
+   "size_group_external_id": "fr_homme",
+   "name": "M",
+   "normalized_name": "m"
+  },
+  {
+   "external_id": "s17",
+   "size_group_external_id": "fr_homme",
+   "name": "L",
+   "normalized_name": "l"
+  },
+  {
+   "external_id": "s18",
+   "size_group_external_id": "fr_homme",
+   "name": "XL",
+   "normalized_name": "xl"
+  },
+  {
+   "external_id": "s19",
+   "size_group_external_id": "fr_homme",
+   "name": "XXL",
+   "normalized_name": "xxl"
+  },
+  {
+   "external_id": "s20",
+   "size_group_external_id": "fr_homme",
+   "name": "3XL",
+   "normalized_name": "3xl"
+  },
+  {
+   "external_id": "s21",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W28",
+   "normalized_name": "w28"
+  },
+  {
+   "external_id": "s22",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W29",
+   "normalized_name": "w29"
+  },
+  {
+   "external_id": "s23",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W30",
+   "normalized_name": "w30"
+  },
+  {
+   "external_id": "s24",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W31",
+   "normalized_name": "w31"
+  },
+  {
+   "external_id": "s25",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W32",
+   "normalized_name": "w32"
+  },
+  {
+   "external_id": "s26",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W33",
+   "normalized_name": "w33"
+  },
+  {
+   "external_id": "s27",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W34",
+   "normalized_name": "w34"
+  },
+  {
+   "external_id": "s28",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W36",
+   "normalized_name": "w36"
+  },
+  {
+   "external_id": "s29",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W38",
+   "normalized_name": "w38"
+  },
+  {
+   "external_id": "s30",
+   "size_group_external_id": "fr_homme_pantalon",
+   "name": "W40",
+   "normalized_name": "w40"
+  },
+  {
+   "external_id": "s31",
+   "size_group_external_id": "fr_homme_gt",
+   "name": "3XL",
+   "normalized_name": "3xl"
+  },
+  {
+   "external_id": "s32",
+   "size_group_external_id": "fr_homme_gt",
+   "name": "4XL",
+   "normalized_name": "4xl"
+  },
+  {
+   "external_id": "s33",
+   "size_group_external_id": "fr_homme_gt",
+   "name": "5XL",
+   "normalized_name": "5xl"
+  },
+  {
+   "external_id": "s34",
+   "size_group_external_id": "pointure_femme",
+   "name": "35",
+   "normalized_name": "35"
+  },
+  {
+   "external_id": "s35",
+   "size_group_external_id": "pointure_femme",
+   "name": "36",
+   "normalized_name": "36"
+  },
+  {
+   "external_id": "s36",
+   "size_group_external_id": "pointure_femme",
+   "name": "37",
+   "normalized_name": "37"
+  },
+  {
+   "external_id": "s37",
+   "size_group_external_id": "pointure_femme",
+   "name": "38",
+   "normalized_name": "38"
+  },
+  {
+   "external_id": "s38",
+   "size_group_external_id": "pointure_femme",
+   "name": "39",
+   "normalized_name": "39"
+  },
+  {
+   "external_id": "s39",
+   "size_group_external_id": "pointure_femme",
+   "name": "40",
+   "normalized_name": "40"
+  },
+  {
+   "external_id": "s40",
+   "size_group_external_id": "pointure_femme",
+   "name": "41",
+   "normalized_name": "41"
+  },
+  {
+   "external_id": "s41",
+   "size_group_external_id": "pointure_femme",
+   "name": "42",
+   "normalized_name": "42"
+  },
+  {
+   "external_id": "s42",
+   "size_group_external_id": "pointure_homme",
+   "name": "39",
+   "normalized_name": "39"
+  },
+  {
+   "external_id": "s43",
+   "size_group_external_id": "pointure_homme",
+   "name": "40",
+   "normalized_name": "40"
+  },
+  {
+   "external_id": "s44",
+   "size_group_external_id": "pointure_homme",
+   "name": "41",
+   "normalized_name": "41"
+  },
+  {
+   "external_id": "s45",
+   "size_group_external_id": "pointure_homme",
+   "name": "42",
+   "normalized_name": "42"
+  },
+  {
+   "external_id": "s46",
+   "size_group_external_id": "pointure_homme",
+   "name": "43",
+   "normalized_name": "43"
+  },
+  {
+   "external_id": "s47",
+   "size_group_external_id": "pointure_homme",
+   "name": "44",
+   "normalized_name": "44"
+  },
+  {
+   "external_id": "s48",
+   "size_group_external_id": "pointure_homme",
+   "name": "45",
+   "normalized_name": "45"
+  },
+  {
+   "external_id": "s49",
+   "size_group_external_id": "pointure_homme",
+   "name": "46",
+   "normalized_name": "46"
+  },
+  {
+   "external_id": "s50",
+   "size_group_external_id": "pointure_homme",
+   "name": "47",
+   "normalized_name": "47"
+  },
+  {
+   "external_id": "s51",
+   "size_group_external_id": "pointure_homme",
+   "name": "48",
+   "normalized_name": "48"
+  },
+  {
+   "external_id": "s52",
+   "size_group_external_id": "pointure_enfant",
+   "name": "18",
+   "normalized_name": "18"
+  },
+  {
+   "external_id": "s53",
+   "size_group_external_id": "pointure_enfant",
+   "name": "19",
+   "normalized_name": "19"
+  },
+  {
+   "external_id": "s54",
+   "size_group_external_id": "pointure_enfant",
+   "name": "20",
+   "normalized_name": "20"
+  },
+  {
+   "external_id": "s55",
+   "size_group_external_id": "pointure_enfant",
+   "name": "21",
+   "normalized_name": "21"
+  },
+  {
+   "external_id": "s56",
+   "size_group_external_id": "pointure_enfant",
+   "name": "22",
+   "normalized_name": "22"
+  },
+  {
+   "external_id": "s57",
+   "size_group_external_id": "pointure_enfant",
+   "name": "23",
+   "normalized_name": "23"
+  },
+  {
+   "external_id": "s58",
+   "size_group_external_id": "pointure_enfant",
+   "name": "24",
+   "normalized_name": "24"
+  },
+  {
+   "external_id": "s59",
+   "size_group_external_id": "pointure_enfant",
+   "name": "25",
+   "normalized_name": "25"
+  },
+  {
+   "external_id": "s60",
+   "size_group_external_id": "pointure_enfant",
+   "name": "26",
+   "normalized_name": "26"
+  },
+  {
+   "external_id": "s61",
+   "size_group_external_id": "pointure_enfant",
+   "name": "27",
+   "normalized_name": "27"
+  },
+  {
+   "external_id": "s62",
+   "size_group_external_id": "pointure_enfant",
+   "name": "28",
+   "normalized_name": "28"
+  },
+  {
+   "external_id": "s63",
+   "size_group_external_id": "pointure_enfant",
+   "name": "29",
+   "normalized_name": "29"
+  },
+  {
+   "external_id": "s64",
+   "size_group_external_id": "pointure_enfant",
+   "name": "30",
+   "normalized_name": "30"
+  },
+  {
+   "external_id": "s65",
+   "size_group_external_id": "pointure_enfant",
+   "name": "31",
+   "normalized_name": "31"
+  },
+  {
+   "external_id": "s66",
+   "size_group_external_id": "pointure_enfant",
+   "name": "32",
+   "normalized_name": "32"
+  },
+  {
+   "external_id": "s67",
+   "size_group_external_id": "pointure_enfant",
+   "name": "33",
+   "normalized_name": "33"
+  },
+  {
+   "external_id": "s68",
+   "size_group_external_id": "pointure_enfant",
+   "name": "34",
+   "normalized_name": "34"
+  },
+  {
+   "external_id": "s69",
+   "size_group_external_id": "pointure_enfant",
+   "name": "35",
+   "normalized_name": "35"
+  },
+  {
+   "external_id": "s70",
+   "size_group_external_id": "pointure_enfant",
+   "name": "36",
+   "normalized_name": "36"
+  },
+  {
+   "external_id": "s71",
+   "size_group_external_id": "pointure_enfant",
+   "name": "37",
+   "normalized_name": "37"
+  },
+  {
+   "external_id": "s72",
+   "size_group_external_id": "pointure_enfant",
+   "name": "38",
+   "normalized_name": "38"
+  },
+  {
+   "external_id": "s73",
+   "size_group_external_id": "pointure_enfant",
+   "name": "39",
+   "normalized_name": "39"
+  },
+  {
+   "external_id": "s74",
+   "size_group_external_id": "enfant",
+   "name": "3 mois",
+   "normalized_name": "3 mois"
+  },
+  {
+   "external_id": "s75",
+   "size_group_external_id": "enfant",
+   "name": "6 mois",
+   "normalized_name": "6 mois"
+  },
+  {
+   "external_id": "s76",
+   "size_group_external_id": "enfant",
+   "name": "1 an",
+   "normalized_name": "1 an"
+  },
+  {
+   "external_id": "s77",
+   "size_group_external_id": "enfant",
+   "name": "2 ans",
+   "normalized_name": "2 ans"
+  },
+  {
+   "external_id": "s78",
+   "size_group_external_id": "enfant",
+   "name": "4 ans",
+   "normalized_name": "4 ans"
+  },
+  {
+   "external_id": "s79",
+   "size_group_external_id": "enfant",
+   "name": "6 ans",
+   "normalized_name": "6 ans"
+  },
+  {
+   "external_id": "s80",
+   "size_group_external_id": "enfant",
+   "name": "8 ans",
+   "normalized_name": "8 ans"
+  },
+  {
+   "external_id": "s81",
+   "size_group_external_id": "enfant",
+   "name": "10 ans",
+   "normalized_name": "10 ans"
+  },
+  {
+   "external_id": "s82",
+   "size_group_external_id": "enfant",
+   "name": "12 ans",
+   "normalized_name": "12 ans"
+  },
+  {
+   "external_id": "s83",
+   "size_group_external_id": "enfant",
+   "name": "14 ans",
+   "normalized_name": "14 ans"
+  },
+  {
+   "external_id": "s84",
+   "size_group_external_id": "unique",
+   "name": "Taille unique",
+   "normalized_name": "taille unique"
+  }
+ ]
+}

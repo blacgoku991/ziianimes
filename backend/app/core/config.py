@@ -74,7 +74,55 @@ class Settings(BaseSettings):
     variant_max_render_attempts: int = 3
     max_photos_per_article: int = 20
 
-    # -- Facturation (schéma seulement à l'étape 1) -----------------------
+    # -- Intelligence artificielle ----------------------------------------
+    #: auto = anthropic si une clé est présente, bouchon déterministe sinon.
+    ai_provider: Literal["auto", "anthropic", "stub"] = "auto"
+    anthropic_api_key: str = ""
+    ai_model: str = "claude-sonnet-5"
+    #: Tarifs en euros par million de jetons, pour la traçabilité de coût.
+    ai_input_price_per_mtok: float = 2.8
+    ai_output_price_per_mtok: float = 14.0
+    ai_max_photos_per_analysis: int = 4
+
+    # -- Publication ------------------------------------------------------
+    #: Délai minimal entre deux actions automatisées sur un même compte.
+    publish_min_delay_seconds: int = 45
+    publish_max_delay_seconds: int = 180
+    #: Plafond quotidien d'actions par compte, pour rester sous les limites
+    #: des plateformes.
+    publish_daily_cap_per_account: int = 40
+    #: Une publication à la fois par compte : durée de garde du verrou.
+    publish_lock_ttl_seconds: int = 900
+    publish_max_attempts: int = 3
+    #: Mode brouillon imposé tant que l'espace n'a pas explicitement accepté
+    #: l'avertissement CGU.
+    autopublish_requires_notice: bool = True
+    playwright_headless: bool = True
+    playwright_timeout_ms: int = 30_000
+    #: Racine des profils navigateur, un répertoire strictement isolé par
+    #: compte. À monter en tmpfs en production.
+    browser_profiles_root: str = "./var/browser-profiles"
+
+    # -- Stock et relances ------------------------------------------------
+    #: Au-delà, une annonce est considérée comme dormante.
+    stale_listing_days: int = 60
+    #: Paliers de baisse par défaut, applicables par publication.
+    default_price_drop_steps: list[dict] = Field(
+        default_factory=lambda: [
+            {"after_days": 21, "drop_pct": 5},
+            {"after_days": 45, "drop_pct": 10},
+            {"after_days": 75, "drop_pct": 15},
+        ]
+    )
+    #: Fréquence maximale de remontée d'une même annonce.
+    relist_min_interval_days: int = 7
+
+    # -- Synchronisation --------------------------------------------------
+    #: Fenêtre d'exposition à la survente : deux acheteurs peuvent acheter la
+    #: même pièce entre deux synchronisations. Voir docs/REVUE_SPEC.md §1.2.
+    sync_interval_seconds: int = 600
+
+    # -- Facturation -------------------------------------------------------
     trial_period_days: int = 14
 
     @field_validator("cors_origins", "image_allowed_content_types", mode="before")

@@ -1,117 +1,147 @@
 # Ziia — préparation et publication d'annonces multi-comptes
 
-Outil destiné aux revendeurs de vêtements d'occasion qui gèrent plusieurs
-comptes marketplace, un par niche.
+Outil pour revendeurs de vêtements d'occasion qui gèrent plusieurs comptes
+marketplace, un par niche.
 
-**État : étape 1 livrée.** Espaces de travail, articles, photos sources et
-pipeline de variantes avec prévisualisation avant/après. **Aucune
-publication automatique n'est implémentée à ce stade** — c'est délibéré, et
-c'est l'ordre de développement retenu.
+**Les six étapes sont livrées.** 152 tests, verts sur SQLite comme sur
+PostgreSQL avec les migrations réellement appliquées.
 
-À lire avant tout : [`docs/REVUE_SPEC.md`](docs/REVUE_SPEC.md) — les points
-de la spécification qui me paraissent fragiles, dont trois à trancher avant
-les étapes 4 et 5.
+Deux documents à lire avant de mettre en production :
+
+- [`docs/REVUE_SPEC.md`](docs/REVUE_SPEC.md) — ce qui me paraît fragile dans
+  la spécification, dont trois points à trancher ;
+- [`docs/MISE_EN_PRODUCTION.md`](docs/MISE_EN_PRODUCTION.md) — ce qui reste à
+  faire avant de publier sur un vrai compte, en particulier **la calibration
+  des sélecteurs Vinted**, qui n'a pas pu être faite ici.
 
 ---
 
-## Démarrage rapide
+## Installation
 
 ```bash
-cp .env.example .env          # renseigner JWT_SECRET et ENCRYPTION_KEY
+git clone https://github.com/blacgoku991/ziianimes.git
+cd ziianimes
+git checkout claude/reseller-saas-multicompte-bzilc7
+
+cp .env.example .env
+# Générer les deux secrets et les coller dans .env :
+python3 -c "import secrets;print('JWT_SECRET=' + secrets.token_urlsafe(48))"
+python3 -c "import os,base64;print('ENCRYPTION_KEY=' + base64.urlsafe_b64encode(os.urandom(32)).decode())"
+
 docker compose up --build
 ```
 
-- API : http://localhost:8000 — documentation interactive sur `/docs`
-- Interface : http://localhost:3000
+- Interface : <http://localhost:3000>
+- API et documentation interactive : <http://localhost:8000/docs>
+
+Le premier démarrage applique les migrations et charge les référentiels
+plateformes. Créez votre compte sur `/register`, puis suivez le parcours :
+**Articles → photos → variantes → analyse → prix → Comptes → publier**.
+
+Sans clé `ANTHROPIC_API_KEY`, l'analyse et la rédaction basculent sur un
+fournisseur déterministe hors ligne : tout le produit reste utilisable, les
+textes sont simplement plus pauvres.
 
 ### Sans Docker
 
 ```bash
-make install          # environnement Python + dépendances
-createdb ziia
-make migrate          # migrations Alembic
-make api              # http://localhost:8000
-make worker           # worker d'imagerie (autre terminal)
+make install                       # environnement Python + dépendances
+createdb ziia && make migrate && make seed
+make api                           # http://localhost:8000
+make worker                        # worker d'imagerie      (autre terminal)
+make worker-publish                # worker de publication  (autre terminal)
+make beat                          # ordonnanceur           (autre terminal)
 
 cd frontend && npm install && npm run dev
 ```
 
-Clé de chiffrement au repos :
+## Commandes
 
-```bash
-python -c "import os,base64;print(base64.urlsafe_b64encode(os.urandom(32)).decode())"
-```
+| Commande | Effet |
+|---|---|
+| `make test` | 152 tests sur SQLite — ~60 s, aucun service externe |
+| `make test-pg` | même suite sur PostgreSQL, migrations comprises |
+| `make lint` | analyse statique (ruff) |
+| `make migrate` / `make revision m="…"` | migrations Alembic |
+| `make seed` | recharge les référentiels (idempotent) |
+| `make calibrate-vinted id=<account_id>` | **vérifie les sélecteurs Vinted** — obligatoire avant toute publication réelle |
+| `make up` / `make down` / `make logs` | pile Docker complète |
 
-## Tests
+## Ce qui est livré, étape par étape
 
-```bash
-make test       # 100 tests sur SQLite — ~30 s, aucun service externe
-make test-pg    # même suite sur PostgreSQL, migrations Alembic comprises
-make lint
-```
+**1 — Fondations.** Inscription, connexion, mot de passe oublié, jetons
+révocables. Espace de travail isolé. Articles avec coût d'achat et marge
+cible. Import de photos en pleine résolution, jamais recompressées.
+Génération de variantes avec prévisualisation avant/après, régénération,
+acceptation, refus.
 
-Les deux cibles passent. La suite Postgres applique réellement
-`alembic upgrade head` : le schéma testé est celui qui sera déployé.
+**2 — Intelligence.** Analyse vision des photos, génération de N textes
+distincts (un par compte cible), ton paramétrable par niche. Référentiels
+catégories / marques / tailles avec import différentiel. Rapprochement qui
+apprend des décisions de l'utilisateur. Prix conseillé avec fourchette,
+marge nette et plancher.
 
-## Ce qui est couvert par les tests
+**3 — Stock.** Tableau avec statut par plateforme, filtres, recherche,
+capital immobilisé, détection des invendus et baisse suggérée.
+
+**4 — Connecteurs.** Rattachement de comptes existants, secrets chiffrés au
+repos, écran de santé. Connecteur Vinted (Playwright) en mode brouillon,
+connecteurs eBay / Depop / Leboncoin sur API officielle. Contrôle de santé
+quotidien qui teste le formulaire.
+
+**5 — Passage à l'échelle.** File de publication, une à la fois par compte,
+délais aléatoires, plafond quotidien, reprise idempotente, dépublication
+croisée à la vente, relances et baisses de prix par paliers.
+
+**6 — Confort.** Boîte de réception unifiée avec détection des offres et
+réponses rapides. Tableau de bord : CA, marge **nette de frais**, délai
+moyen de vente, performance par niche, marques les plus rentables.
+
+## Les garanties vérifiées par les tests
 
 | Domaine | Ce qui est vérifié |
 |---|---|
 | Pipeline photo | **Un seul encodage** (compté), pas de bord noir après rotation, EXIF supprimé, bornes de qualité tenues même en escalade, rendu reproductible depuis une recette stockée |
-| Écart perceptuel | Distance de Hamming ≥ 10/64 avec la source, ≥ 8 entre variantes sœurs, stabilité du pHash sous recompression |
-| Isolation | Accès croisé refusé sur articles, photos, variantes et fichiers ; jeton média lié à son objet ; en-tête d'espace de travail non cru sur parole |
-| Authentification | Rotation des jetons, détection de rejeu, réinitialisation non rejouable, absence d'oracle d'existence de comptes |
-| Métier | Import idempotent, référence unique par espace, suppression logique, ordre des photos, régénération, acceptation/refus |
+| Écart perceptuel | ≥ 10/64 avec la source, ≥ 8 entre variantes sœurs, stabilité du pHash sous recompression |
+| Isolation | Accès croisé refusé sur articles, photos, variantes, fichiers, comptes, correspondances et tableau de bord |
+| Secrets | Chiffré non rejouable d'une ligne à l'autre, jamais renvoyé par l'API, effacé quand la session expire |
+| Publication | Brouillon par défaut, doublon inter-comptes refusé, cadence et plafond quotidien, reprise sans réenvoi des photos, session expirée → reconnexion |
+| Vente | Dépublication croisée y compris des publications **en attente**, survente détectée, retour remis en stock |
+| Argent | Marge nette après commissions, prix cible cohérent, baisse de prix jamais sous le plancher |
+
+## Où le produit s'arrête volontairement
+
+- **Il ne crée aucun compte marketplace**, ne contourne aucun CAPTCHA, ne
+  réceptionne aucun SMS. L'utilisateur rattache des comptes qu'il possède.
+- **Le mode brouillon est le comportement par défaut** et le reste tant que
+  l'avertissement CGU n'a pas été accepté explicitement.
+- **La soumission automatique sur Vinted est désactivée** tant que les
+  sélecteurs n'ont pas été calibrés (`CALIBRATED = False`).
+- **Un CAPTCHA arrête le job** et rend la main à l'utilisateur.
+
+L'automatisation des publications est contraire aux conditions
+d'utilisation de certaines plateformes. Le risque de restriction de compte
+est porté par l'utilisateur, et l'avertissement figure à l'inscription.
 
 ## Structure
 
 ```
 backend/
   app/
-    core/        configuration, sécurité, chiffrement, journalisation
-    db/          moteur, types portables, base déclarative
-    models/      23 tables — identité, catalogue, marketplace, référentiels
-    imaging/     ops, recettes, fonds, segmentation, pHash, pipeline
-    storage/     interface objet + implémentations locale et S3/R2
-    services/    logique métier, toujours filtrée par espace de travail
-    api/v1/      auth, articles, photos, variantes
-    workers/     Celery — file `imaging`
-  alembic/       migration initiale
-  tests/         100 tests
-frontend/        Next.js 15, TypeScript, Tailwind
-docs/            REVUE_SPEC.md, ARCHITECTURE.md
+    core/         configuration, sécurité, chiffrement, journalisation
+    db/           moteur, types portables, base déclarative
+    models/       23 tables — identité, catalogue, marketplace, référentiels
+    imaging/      ops, recettes, fonds, segmentation, pHash, pipeline
+    ai/           fournisseur Claude + bouchon hors ligne
+    referential/  import des catégories, marques et tailles
+    connectors/   contrat commun, Vinted (Playwright), eBay/Depop/Leboncoin
+    storage/      interface objet + local et S3/R2
+    services/     métier, toujours filtré par espace de travail
+    api/v1/       61 routes
+    workers/      Celery — files `imaging` et `publish`, ordonnanceur
+  alembic/        2 migrations
+  scripts/        calibration Vinted, chargement des référentiels
+  tests/          152 tests
+frontend/         Next.js 15 — articles, stock, comptes, messages, bilan
+docs/             REVUE_SPEC.md, ARCHITECTURE.md, MISE_EN_PRODUCTION.md
 ```
-
-## Ce qui est fait, et ce qui ne l'est pas
-
-**Étape 1 — fait**
-
-- inscription, connexion, mot de passe oublié, jetons révocables
-- espace de travail isolé, essai gratuit de 14 jours (colonnes posées)
-- articles : référence, coût d'achat, marge cible, statut, suppression logique
-- import de photos en pleine résolution, sans recompression, dédupliqué
-- génération de 1 à 6 variantes par photo, en file d'attente ou en direct
-- prévisualisation avant/après, régénération, acceptation, refus
-- écart perceptuel mesuré, stocké et affiché
-
-**Non implémenté volontairement**
-
-- Stripe : les colonnes existent, l'intégration attend
-- envoi d'e-mail : en développement, le lien de réinitialisation est
-  journalisé, et uniquement en développement
-- `rembg` : dépendance optionnelle (`pip install -e ".[segmentation]"`).
-  Sans elle, le pipeline conserve le fond d'origine et le signale au lieu de
-  faire croire à un détourage raté
-- tout ce qui touche aux plateformes : étapes 2 à 6
-
-## Position sur l'automatisation
-
-L'automatisation des publications est contraire aux conditions
-d'utilisation de certaines plateformes. Le risque de restriction de compte
-est porté par l'utilisateur, et l'avertissement figure à l'inscription
-(`workspaces.automation_notice_accepted_at`).
-
-Ce que le produit ne fait pas et ne fera pas : créer des comptes
-automatiquement, contourner un CAPTCHA, réceptionner des SMS jetables.
-L'utilisateur rattache des comptes qu'il possède déjà. Le mode brouillon
-reste disponible en permanence et constitue le comportement par défaut.

@@ -18,7 +18,7 @@ celery_app = Celery(
     "ziia",
     broker=settings.celery_broker_url,
     backend=settings.celery_result_backend,
-    include=["app.workers.tasks.imaging"],
+    include=["app.workers.tasks.imaging", "app.workers.tasks.publishing"],
 )
 
 celery_app.conf.update(
@@ -38,5 +38,20 @@ celery_app.conf.update(
     task_routes={
         "imaging.*": {"queue": "imaging"},
         "publish.*": {"queue": "publish"},
+    },
+    beat_schedule={
+        # Fenêtre de survente : c'est cet intervalle qui borne le délai
+        # pendant lequel un article vendu reste en ligne ailleurs.
+        "sync-listings": {
+            "task": "publish.sync_listings",
+            "schedule": float(settings.sync_interval_seconds),
+        },
+        # Reprise des publications qui attendaient un compte libre.
+        "drain-queue": {"task": "publish.drain_queue", "schedule": 120.0},
+        # Relances et baisses de prix.
+        "run-schedules": {"task": "publish.run_schedules", "schedule": 3600.0},
+        # Contrôle quotidien du formulaire : alerte le jour où le DOM change.
+        "health-check": {"task": "publish.health_check", "schedule": 24 * 3600.0},
+        "sync-inbox": {"task": "publish.sync_inbox", "schedule": 900.0},
     },
 )

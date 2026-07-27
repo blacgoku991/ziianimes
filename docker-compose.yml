@@ -38,6 +38,7 @@ services:
       - storage:/data/storage
     command: >
       sh -c "alembic upgrade head &&
+             python scripts/seed_referentials.py &&
              uvicorn app.main:app --host 0.0.0.0 --port 8000"
 
   # Worker d'imagerie : gourmand en CPU et en mémoire, séparé de l'API pour
@@ -57,9 +58,45 @@ services:
       - storage:/data/storage
     command: celery -A app.workers.celery_app.celery_app worker -Q imaging -c 2 --loglevel=info
 
-  # Étape 4 : les workers Playwright viendront ici, dans leur propre image et
-  # avec leur propre file. Ils ne partagent ni le processus, ni le conteneur
-  # de l'API — un navigateur qui tombe ne doit pas emporter le backend.
+  # Worker de publication : pilote les navigateurs Playwright. Conteneur
+  # separe et non privilegie — un navigateur qui tombe ne doit pas emporter
+  # l'API, et il manipule des pages venant de l'exterieur.
+  worker-publish:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.playwright
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://ziia:ziia@db:5432/ziia
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+      STORAGE_LOCAL_ROOT: /data/storage
+      BROWSER_PROFILES_ROOT: /profiles
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    volumes:
+      - storage:/data/storage
+    # Les profils navigateur contiennent la session en clair pendant le job :
+    # en tmpfs, ils disparaissent a l'arret du conteneur et ne sont jamais
+    # captures dans une image.
+    tmpfs:
+      - /profiles:size=512m
+    # Une publication a la fois par worker : la cadence est un garde-fou.
+    command: celery -A app.workers.celery_app.celery_app worker -Q publish -c 1 --loglevel=info
+
+  # Ordonnanceur : synchronisation des ventes, relances, controle de sante.
+  beat:
+    build: ./backend
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://ziia:ziia@db:5432/ziia
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    depends_on:
+      redis: { condition: service_healthy }
+    command: celery -A app.workers.celery_app.celery_app beat --loglevel=info
+
 
   frontend:
     build: ./frontend

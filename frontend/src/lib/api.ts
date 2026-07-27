@@ -1,11 +1,27 @@
 "use client";
 
 import type {
+  Account,
+  AccountHealth,
+  Analysis,
   Article,
   ArticleDetail,
   ArticleList,
+  CopyVariant,
+  Dashboard,
+  MatchResult,
   Photo,
+  PriceAdvice,
+  Publication,
+  PublicationEvent,
+  QuickReply,
+  SaleOutcome,
   Session,
+  StaleSuggestion,
+  StockRow,
+  StockSummary,
+  Thread,
+  ThreadMessage,
   Tokens,
   Variant,
 } from "./types";
@@ -183,4 +199,138 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ accepted }),
     }),
+
+  // -- Étape 2 : intelligence ------------------------------------------------
+
+  analyseArticle: (articleId: string, hint?: string) =>
+    request<Analysis>(`/api/v1/articles/${articleId}/analyse`, {
+      method: "POST",
+      body: JSON.stringify({ hint: hint ?? null }),
+    }),
+
+  generateCopy: (articleId: string, variantCount = 3, niche?: string) =>
+    request<{ variants: CopyVariant[] }>(`/api/v1/articles/${articleId}/copy`, {
+      method: "POST",
+      body: JSON.stringify({ variant_count: variantCount, niche: niche ?? null }),
+    }),
+
+  suggestPrice: (articleId: string, platform = "vinted") =>
+    request<PriceAdvice>(`/api/v1/articles/${articleId}/price`, {
+      method: "POST",
+      body: JSON.stringify({ platform }),
+    }),
+
+  importReferentials: () =>
+    request<Record<string, Record<string, number>>>("/api/v1/referentials/import", {
+      method: "POST",
+    }),
+
+  searchCategories: (q: string) =>
+    request<{ external_id: string; name: string; path: string }[]>(
+      `/api/v1/referentials/categories?q=${encodeURIComponent(q)}`,
+    ),
+
+  matchCategory: (label: string, context?: string) =>
+    request<MatchResult>("/api/v1/mapping/category", {
+      method: "POST",
+      body: JSON.stringify({ label, context: context ?? null }),
+    }),
+
+  rememberCategory: (label: string, externalId: string) =>
+    request<MatchResult>("/api/v1/mapping/category/remember", {
+      method: "POST",
+      body: JSON.stringify({ label, external_id: externalId }),
+    }),
+
+  // -- Étape 3 : stock -------------------------------------------------------
+
+  stock: (params: Record<string, string> = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return request<{ items: StockRow[]; total: number; summary: StockSummary }>(
+      `/api/v1/stock${query ? `?${query}` : ""}`,
+    );
+  },
+
+  staleListings: () => request<StaleSuggestion[]>("/api/v1/stock/stale"),
+
+  // -- Étape 4 : comptes -----------------------------------------------------
+
+  listAccounts: () => request<Account[]>("/api/v1/accounts"),
+
+  accountsHealth: () => request<AccountHealth[]>("/api/v1/accounts/health"),
+
+  createAccount: (payload: {
+    platform: string;
+    label: string;
+    niche?: string | null;
+  }) =>
+    request<Account>("/api/v1/accounts", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
+  storeCredentials: (accountId: string, payload: Record<string, unknown>) =>
+    request<Account>(`/api/v1/accounts/${accountId}/credentials`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+
+  deleteAccount: (accountId: string) =>
+    request<void>(`/api/v1/accounts/${accountId}`, { method: "DELETE" }),
+
+  acceptAutomationNotice: (accepted: boolean) =>
+    request<{ accepted: boolean; accepted_at: string | null }>(
+      "/api/v1/workspace/automation-notice",
+      { method: "POST", body: JSON.stringify({ accepted }) },
+    ),
+
+  // -- Étape 5 : publications ------------------------------------------------
+
+  preparePublications: (
+    articleId: string,
+    accountIds: string[],
+    mode: "draft" | "autopublish" = "draft",
+    enqueue = false,
+  ) =>
+    request<Publication[]>(`/api/v1/articles/${articleId}/publications`, {
+      method: "POST",
+      body: JSON.stringify({ account_ids: accountIds, mode, enqueue }),
+    }),
+
+  listPublications: (articleId?: string) =>
+    request<Publication[]>(
+      `/api/v1/publications${articleId ? `?article_id=${articleId}` : ""}`,
+    ),
+
+  enqueuePublication: (publicationId: string) =>
+    request<Publication>(`/api/v1/publications/${publicationId}/enqueue`, {
+      method: "POST",
+    }),
+
+  markSold: (publicationId: string, salePriceCents?: number) =>
+    request<SaleOutcome>(`/api/v1/publications/${publicationId}/sold`, {
+      method: "POST",
+      body: JSON.stringify({ sale_price_cents: salePriceCents ?? null }),
+    }),
+
+  publicationEvents: (publicationId: string) =>
+    request<PublicationEvent[]>(`/api/v1/publications/${publicationId}/events`),
+
+  // -- Étape 6 : boîte de réception et tableau de bord ------------------------
+
+  inbox: (unreadOnly = false) =>
+    request<Thread[]>(`/api/v1/inbox${unreadOnly ? "?unread_only=true" : ""}`),
+
+  threadMessages: (threadId: string) =>
+    request<ThreadMessage[]>(`/api/v1/inbox/${threadId}`),
+
+  reply: (threadId: string, body: string) =>
+    request<{ id: string; queued: boolean }>(`/api/v1/inbox/${threadId}/reply`, {
+      method: "POST",
+      body: JSON.stringify({ body }),
+    }),
+
+  quickReplies: () => request<QuickReply[]>("/api/v1/quick-replies"),
+
+  dashboard: (days = 30) => request<Dashboard>(`/api/v1/dashboard?days=${days}`),
 };

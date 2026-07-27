@@ -25,6 +25,18 @@ api: ## Lance l'API en rechargement automatique
 worker: ## Lance le worker d'imagerie
 	cd backend && ../$(PY) -m celery -A app.workers.celery_app.celery_app worker -Q imaging --loglevel=info
 
+worker-publish: ## Lance le worker de publication (navigateur)
+	cd backend && ../$(PY) -m celery -A app.workers.celery_app.celery_app worker -Q publish -c 1 --loglevel=info
+
+beat: ## Lance l'ordonnanceur (synchro ventes, relances, santé)
+	cd backend && ../$(PY) -m celery -A app.workers.celery_app.celery_app beat --loglevel=info
+
+seed: ## Charge les référentiels plateformes (idempotent)
+	cd backend && ../$(PY) scripts/seed_referentials.py
+
+calibrate-vinted: ## Vérifie les sélecteurs Vinted (make calibrate-vinted id=<account_id>)
+	cd backend && ../$(PY) scripts/calibrate_vinted.py $(id)
+
 test: ## Suite de tests sur SQLite (rapide, sans service externe)
 	cd backend && ../$(PY) -m pytest
 

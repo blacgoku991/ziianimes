@@ -1,0 +1,24 @@
+# Worker de publication : image séparée, avec le navigateur embarqué.
+# Elle pèse plus d'un gigaoctet — raison suffisante pour ne pas l'imposer à
+# l'API ni au worker d'imagerie, qui n'en ont pas besoin.
+FROM mcr.microsoft.com/playwright/python:v1.49.0-noble
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt playwright==1.49.0
+
+COPY . .
+
+# Le worker ouvre des pages venant de l'extérieur : jamais en root.
+RUN useradd --create-home --uid 10001 ziia && chown -R ziia:ziia /app
+USER ziia
+
+# Une seule publication à la fois par worker : la cadence par compte est un
+# garde-fou métier, pas une limite de performance qu'on chercherait à lever.
+CMD ["celery", "-A", "app.workers.celery_app.celery_app", "worker", \
+     "-Q", "publish", "-c", "1", "--loglevel=info"]
