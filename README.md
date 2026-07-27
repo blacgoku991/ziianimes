@@ -18,18 +18,53 @@ Deux documents à lire avant de mettre en production :
 
 ## Installation
 
+**Prérequis : Docker Desktop installé et démarré.** Sous Windows,
+vérifiez que la baleine est présente dans la barre des tâches avant de
+lancer quoi que ce soit ; sans cela `docker compose` échoue avec un message
+sur un « pipe introuvable ».
+
+### Windows (PowerShell)
+
+```powershell
+git clone https://github.com/blacgoku991/ziianimes.git
+cd ziianimes
+git checkout claude/reseller-saas-multicompte-bzilc7
+
+powershell -ExecutionPolicy Bypass -File .\scripts\setup-env.ps1
+docker compose up --build
+```
+
+Le script crée `.env` et y génère les deux secrets — pas besoin de Python
+installé. Rejouer le script ne réécrit pas un secret déjà renseigné :
+changer `ENCRYPTION_KEY` rendrait illisibles les sessions marketplace déjà
+enregistrées.
+
+### Linux / macOS
+
 ```bash
 git clone https://github.com/blacgoku991/ziianimes.git
 cd ziianimes
 git checkout claude/reseller-saas-multicompte-bzilc7
 
-cp .env.example .env
-# Générer les deux secrets et les coller dans .env :
-python3 -c "import secrets;print('JWT_SECRET=' + secrets.token_urlsafe(48))"
-python3 -c "import os,base64;print('ENCRYPTION_KEY=' + base64.urlsafe_b64encode(os.urandom(32)).decode())"
-
+bash scripts/setup-env.sh
 docker compose up --build
 ```
+
+### Premier démarrage : comptez du temps
+
+L'image du worker de publication embarque un navigateur : plus d'un
+gigaoctet à télécharger. Pour avoir l'interface tout de suite, démarrez
+d'abord le nécessaire, et ajoutez les workers ensuite :
+
+```bash
+docker compose up --build db redis api frontend
+# puis, dans un autre terminal :
+docker compose up --build worker-imaging worker-publish beat
+```
+
+Sans `worker-imaging`, la génération de variantes reste en attente : cochez
+« synchrone » dans l'interface pour la déclencher directement pendant vos
+essais.
 
 - Interface : <http://localhost:3000>
 - API et documentation interactive : <http://localhost:8000/docs>
